@@ -1,0 +1,61 @@
+create user root identified by 777777;
+create tablespace student_examination_sys datafile 'F:\Oracle\student_examination_sys.dbf' size 20m;
+alter user root  default tablespace student_examination_sys;
+grant create session,create table,unlimited tablespace to root;
+conn root/777777;
+
+CREATE TABLE student(
+   id int primary key,
+   name char(100) not null,
+   age int not null,
+   sex char(10) not null
+);
+
+
+CREATE TABLE subject(
+   id int primary key,
+   subject char(100) not null,
+   teacher char(100) not null,
+   description char(100) not null
+);
+
+
+CREATE TABLE score(
+   id int primary key,
+   student_id  int not null，
+   subject_id  int not null，
+   score int not null，
+   foreign key (student_id) references student(id),
+   foreign key (subject_id) references subject(id)
+);
+
+
+INSERT INTO student(id,name,age,sex)
+VALUES('001','zhangsan','18','male');
+INSERT INTO student(id,name,age,sex)
+VALUES('002','lisi','20','female');
+
+
+INSERT INTO subject(id,subject,teacher,description)
+VALUES('1001','Chinese','Mr. Wang','the exam is easy');
+INSERT INTO subject(id,subject,teacher,description)
+VALUES('1002','math','Miss Liu','the exam is difficult');
+
+INSERT INTO score(id,student_id,subject_id,score)
+VALUES('1','001','1001','80');
+INSERT INTO score(id,student_id,subject_id,score)
+VALUES('2','002','1002','60');
+INSERT INTO score(id,student_id,subject_id,score)
+VALUES('3','001','1001','70');
+INSERT INTO score(id,student_id,subject_id,score)
+VALUES('4','002','1002','6.5');
+
+
+
+//SELECT T.COLUMN_NAME FROM USER_TAB_COLUMNS T WHERE T.TABLE_NAME='score';
+
+//SELECT table_name, column_name, data_type
+//  FROM all_tab_cols
+// WHERE table_name = 'SCORE' ;
+//注意：表名一定要大写。
+
